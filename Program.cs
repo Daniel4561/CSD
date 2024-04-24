@@ -22,7 +22,6 @@ namespace CSD
 
             while (true)
             {
-                Console.Write("CSD>");
                 string command = Console.ReadLine();
                 if (command == "-h" || command == "/h" || command == "/?")
                     Console.WriteLine(help);
@@ -36,7 +35,8 @@ namespace CSD
                     {
                         if(command.Split(" ")[0] == "-sf")
                         {
-
+                            client.SendMessage(command);
+                            client.SendFile(command.Split(' ')[1]);
                         }
                         else
                             Console.WriteLine(unkCommand);

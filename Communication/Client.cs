@@ -1,6 +1,8 @@
 ﻿using CSD.AES_Alghoritm;
 using CSD.Key;
 using System;
+using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -54,7 +56,28 @@ namespace CSD.Communication
 
             var bytes = AES.Encrypt(message);
             stream.Write(bytes);
-            stream.Flush();
+        }
+
+        public void SendFile(string path)
+        {
+            using var file = File.OpenRead(path);
+
+            if(file == null)
+            {
+                Console.WriteLine("No such file!");
+                return;
+            }
+
+            var buffer = new byte[1024];
+            var readed = file.Read(buffer, 0, buffer.Length);
+
+            while(readed != 0)
+            {
+                var encoded = AES.Encrypt(buffer.Take(readed).ToArray());
+                stream.Write(encoded);
+                readed = file.Read(buffer, 0, buffer.Length);
+            }
+
         }
 
         public void Stop()

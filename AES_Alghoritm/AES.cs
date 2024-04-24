@@ -319,10 +319,13 @@ namespace CSD.AES_Alghoritm
 
             return output;
         }
-
         public static byte[] Encrypt(string input)
         {
-            byte[] bytes = Encoding.ASCII.GetBytes(input);
+            return Encrypt(Encoding.ASCII.GetBytes(input));
+
+        }
+        public static byte[] Encrypt(byte[] bytes)
+        {
 
             int len = bytes.Length;
 
@@ -375,6 +378,31 @@ namespace CSD.AES_Alghoritm
                 byte[] result = AES.InvChipher(text, 10, wkey);
 
                 output += Encoding.ASCII.GetString(result);
+            }
+
+            return output;
+        }
+
+        public static byte[] Decrypt_Bytes(byte[] input)
+        {
+            if (input.Length % 16 != 0) throw new Exception();
+            byte[] output = new byte[input.Length];
+
+            var wkey = KeyExpansion();
+
+            for (int i = 0; i < input.Length; i += 16)
+            {
+                byte[] text = new byte[16];
+                for (int j = 0; j < 16; j++)
+                    text[j] = input[j + i];
+
+                byte[] result = AES.InvChipher(text, 10, wkey);
+
+                for(int j = 0; j < 16;j++)
+                {
+                    output[i*16 +j] = result[j];
+                }
+
             }
 
             return output;

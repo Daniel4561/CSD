@@ -9,6 +9,7 @@ using System.Threading;
 using CSD.Key;
 using CSD.AES_Alghoritm;
 using System.Numerics;
+using System.IO;
 
 namespace CSD.Communication
 {
@@ -63,10 +64,37 @@ namespace CSD.Communication
 
                 string message = AES.Decrypt(readBuffer.Take(recived).ToArray());
 
-                if(message.Split(' ')[0] == "-sm")
+                if (message.Split(' ')[0] == "-sm")
                 {
-                    message = message.Substring(3);
-                    Console.WriteLine();
+                    message = message.Substring(4);
+                    Console.WriteLine("Recived: " + message);
+                }
+                else
+                {
+                    var path = message.Split(" ")[1].Split("\\");
+                    var filePath = path[path.Length - 1];
+
+                    using var file = File.OpenWrite(filePath);
+                    if(file == null)
+                    {
+                        Console.WriteLine("Cannot open file!");
+                        return;
+                    }
+
+                    while(true)
+                    {
+                        int recv = stream.Read(readBuffer);
+                        var mess = AES.Decrypt_Bytes(readBuffer.Take(recv).ToArray());
+
+                        if (recv < 1024)
+                        {
+                            file.Write(mess, 0, mess.Length);
+                            break;
+                        }
+
+                        file.Write(mess, 0, mess.Length);
+                    }
+
                 }
 
             }
