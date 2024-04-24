@@ -24,7 +24,7 @@ namespace CSD.Communication
 
         public Client()
         {
-            endPoint = new IPEndPoint(new IPAddress(new byte[] { 192, 168, 1, 103 }), port);
+            endPoint = new IPEndPoint(new IPAddress(new byte[] { 192, 168, 1, 102 }), port);
         }
 
         public void Connect()
