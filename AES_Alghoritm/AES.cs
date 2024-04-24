@@ -400,7 +400,7 @@ namespace CSD.AES_Alghoritm
 
                 for(int j = 0; j < 16;j++)
                 {
-                    output[i*16 +j] = result[j];
+                    output[i + j] = result[j];
                 }
 
             }
