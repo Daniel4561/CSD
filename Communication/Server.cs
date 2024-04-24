@@ -61,7 +61,14 @@ namespace CSD.Communication
             {
                 var recived = stream.Read(readBuffer);
 
-                Console.WriteLine(AES.Decrypt(readBuffer.Take(recived).ToArray()).Split(' ')[0]);
+                string message = AES.Decrypt(readBuffer.Take(recived).ToArray());
+
+                if(message.Split(' ')[0] == "-sm")
+                {
+                    message = message.Substring(3);
+                    Console.WriteLine();
+                }
+
             }
         }
 
