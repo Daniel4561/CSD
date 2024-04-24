@@ -45,7 +45,7 @@ namespace CSD.Communication
             keyAgreement.Agreement(new BigInteger(readBuffer.Take(recived).ToArray()));
 
             aes = new AES(keyAgreement.communicationKey);
-            Console.WriteLine(BitConverter.ToString(AES.key));
+            //Console.WriteLine(BitConverter.ToString(AES.key));
         }
 
         public void SendMessage(string message)

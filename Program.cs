@@ -11,6 +11,8 @@ namespace CSD
     {
         static void Main(string[] args)
         {
+            string help = "-sm [message] to send messege\n-sf [filePath] send file\n";
+            string unkCommand = "Unknown Command";
             var server = new Server();
             server.Start();
 
@@ -18,9 +20,29 @@ namespace CSD
 
             client.Connect();
 
-            string message = Console.ReadLine();
+            while (true)
+            {
+                Console.Write("CSD>");
+                string command = Console.ReadLine();
+                if (command == "-h" || command == "/h" || command == "/?")
+                    Console.WriteLine(help);
+                else
+                {
+                    if (command.Split(' ')[0] == "-sm")
+                    {
+                        client.SendMessage(command);
+                    }
+                    else
+                    {
+                        if(command.Split(" ")[0] == "-sf")
+                        {
 
-            client.SendMessage(message);
+                        }
+                        else
+                            Console.WriteLine(unkCommand);
+                    }
+                }
+            }
         }
     }
 }

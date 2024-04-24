@@ -61,7 +61,7 @@ namespace CSD.Communication
             {
                 var recived = stream.Read(readBuffer);
 
-                Console.WriteLine(AES.Decrypt(readBuffer.Take(recived).ToArray()));
+                Console.WriteLine(AES.Decrypt(readBuffer.Take(recived).ToArray()).Split(' ')[0]);
             }
         }
 
@@ -77,7 +77,7 @@ namespace CSD.Communication
             keyAgreement.Agreement(new BigInteger(readBuffer.Take(recived).ToArray()));
 
             AES aes = new AES(keyAgreement.communicationKey);
-            Console.WriteLine(BitConverter.ToString(AES.key));
+            //Console.WriteLine(BitConverter.ToString(AES.key));
 
             return aes;
         }
