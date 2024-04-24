@@ -47,6 +47,7 @@ namespace CSD.Communication
 
                 var clientHandlerThread = new Thread(() => { HandleClient(handler, stream); });
                 clientHandlerThread.Start();
+
             }
 
         }
@@ -58,6 +59,7 @@ namespace CSD.Communication
 
         private void HandleClient(TcpClient handler, NetworkStream stream)
         {
+            Console.WriteLine("Connected");
             while(true)
             {
                 var recived = stream.Read(readBuffer);
@@ -72,7 +74,9 @@ namespace CSD.Communication
                 else
                 {
                     var path = message.Split(" ")[1].Split("\\");
-                    var filePath = path[path.Length - 1];
+                    var filePath = path[path.Length - 1].Replace("\0","");
+
+                    Console.WriteLine("Reciving file: " +  filePath);
 
                     using var file = File.OpenWrite(filePath);
                     if(file == null)
@@ -95,6 +99,7 @@ namespace CSD.Communication
                         file.Write(mess, 0, mess.Length);
                     }
 
+                    Console.WriteLine("Recived");
                 }
 
             }
