@@ -39,7 +39,7 @@ namespace CSD.Communication
         private void Run()
         {
 
-            while (started)
+            while (true)
             {
                 var handler = listener.AcceptTcpClient();
                 var stream = handler.GetStream();
@@ -60,7 +60,7 @@ namespace CSD.Communication
         private void HandleClient(TcpClient handler, NetworkStream stream)
         {
             Console.WriteLine("Connected");
-            while(started)
+            while(true)
             {
                 var recived = stream.Read(readBuffer);
 
