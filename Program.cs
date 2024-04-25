@@ -33,13 +33,21 @@ namespace CSD
                     }
                     else
                     {
-                        if(command.Split(" ")[0] == "-sf")
+                        if (command.Split(" ")[0] == "-sf")
                         {
                             client.SendMessage(command);
                             client.SendFile(command.Split(' ')[1]);
                         }
                         else
-                            Console.WriteLine(unkCommand);
+                        {
+                            if (command == "exit")
+                            {
+                                client.Stop();
+                                server.Stop();
+                            }
+                            else
+                                Console.WriteLine(unkCommand);
+                        }
                     }
                 }
             }
